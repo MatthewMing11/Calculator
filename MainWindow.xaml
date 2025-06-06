@@ -9,7 +9,7 @@
         
     <StackPanel Background="#F4F4F4" Orientation="Vertical" Width="370">
     <StackPanel Name="Display" Orientation="Vertical">
-    <TextBlock  Name="Previous_Expression" Height="50" TextAlignment="Right" FontSize="24"/>
+    <TextBlock  Name="Previous_Expression" Height="50" TextAlignment="Right" FontSize="24" Text=""/>
     <TextBlock  Name="Active_Input" Height="50" TextAlignment="Right" FontSize="44" FontWeight="Bold" Text="0"/>
     </StackPanel>
     <Grid Button.Click="process_Click">
