@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
         mc:Ignorable="d"
-        Title="Calculator" Height="480" Width="400">
+        Title="Calculator" Height="560" Width="400">
         
-    <Grid Background="#F4F4F4" Width="370">
+    <StackPanel Background="#F4F4F4" Orientation="Vertical" Width="370">
+    <StackPanel Name="Display" Orientation="Vertical">
+    <TextBlock  Name="Previous_Expression" Height="50" TextAlignment="Right" FontSize="24"/>
+    <TextBlock  Name="Active_Input" Height="50" TextAlignment="Right" FontSize="44" FontWeight="Bold" Text="0"/>
+    </StackPanel>
+    <Grid Button.Click="process_Click">
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
@@ -23,32 +27,32 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-    <TextBlock Grid.Row="0" Grid.Column="0" Height="50" TextAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="4" FontSize="24" FontWeight="Bold">Hello</TextBlock>
-        <!-- Add button to window -->
-  <Button Name="button_percent" Grid.Row="1" Grid.Column="0" Height="50" FontSize="16">%</Button>
-  <Button Name="button_CE" Grid.Row="1" Grid.Column="1" Height="50" FontSize="16">CE</Button>
-  <Button Name="button_C" Grid.Row="1" Grid.Column="2" Height="50" FontSize="16">C</Button>
-  <Button Name="button_backspace" Grid.Row="1" Grid.Column="3" Height="50" FontSize="16">⌫</Button>
-  <Button Name="button_fraction" Grid.Row="2" Grid.Column="0" Height="50" FontSize="16">1/x</Button>
-  <Button Name="button_square" Grid.Row="2" Grid.Column="1" Height="50" FontSize="16">x²</Button>
-  <Button Name="button_root" Grid.Row="2" Grid.Column="2" Height="50" FontSize="16">²√x</Button>
-  <Button Name="button_div" Grid.Row="2" Grid.Column="3" Height="50" FontSize="24">÷</Button>
-  <Button Name="button_7" Grid.Row="3" Grid.Column="0" Height="50" FontSize="16">7</Button>
-  <Button Name="button_8" Grid.Row="3" Grid.Column="1" Height="50" FontSize="16">8</Button>
-  <Button Name="button_9" Grid.Row="3" Grid.Column="2" Height="50" FontSize="16">9</Button>
-  <Button Name="button_mult" Grid.Row="3" Grid.Column="3" Height="50" FontSize="24">×</Button>
-  <Button Name="button_4" Grid.Row="4" Grid.Column="0" Height="50" FontSize="16">4</Button>
-  <Button Name="button_5" Grid.Row="4" Grid.Column="1" Height="50" FontSize="16">5</Button>
-  <Button Name="button_6" Grid.Row="4" Grid.Column="2" Height="50" FontSize="16">6</Button>
-  <Button Name="button_minus" Grid.Row="4" Grid.Column="3" Height="50" FontSize="24">-</Button>
-  <Button Name="button_1" Grid.Row="5" Grid.Column="0" Height="50" FontSize="16">1</Button>
-  <Button Name="button_2" Grid.Row="5" Grid.Column="1" Height="50" FontSize="16">2</Button>
-  <Button Name="button_3" Grid.Row="5" Grid.Column="2" Height="50" FontSize="16">3</Button>
-  <Button Name="button_plus" Grid.Row="5" Grid.Column="3" Height="50" FontSize="24">+</Button>
-  <Button Name="button_sign" Grid.Row="6" Grid.Column="0" Height="50" FontSize="16">+/-</Button>
-  <Button Name="button_0" Grid.Row="6" Grid.Column="1" Height="50" FontSize="16">0</Button>
-  <Button Name="button_decimal" Grid.Row="6" Grid.Column="2" Height="50" FontSize="16">.</Button>
-  <Button Name="button_equal" Grid.Row="6" Grid.Column="3" Height="50" Background="Blue" FontSize="24" Foreground="White">=</Button>
+            <!-- Add button to window -->
+  <Button Name="button_percent" Grid.Row="0" Grid.Column="0" Height="50" FontSize="16" Content="%"/>
+  <Button Name="button_CE" Grid.Row="0" Grid.Column="1" Height="50" FontSize="16" Content="CE"/>
+  <Button Name="button_C" Grid.Row="0" Grid.Column="2" Height="50" FontSize="16" Content="C"/>
+  <Button Name="button_backspace" Grid.Row="0" Grid.Column="3" Height="50" FontSize="16" Content="⌫"/>
+  <Button Name="button_fraction" Grid.Row="1" Grid.Column="0" Height="50" FontSize="16" Content="1/x"/>
+  <Button Name="button_square" Grid.Row="1" Grid.Column="1" Height="50" FontSize="16" Content="x²"/>
+  <Button Name="button_root" Grid.Row="1" Grid.Column="2" Height="50" FontSize="16" Content="²√x"/>
+  <Button Name="button_div" Grid.Row="1" Grid.Column="3" Height="50" FontSize="24" Content="÷"/>
+  <Button Name="button_7" Grid.Row="2" Grid.Column="0" Height="50" FontSize="16" Content="7"/>
+  <Button Name="button_8" Grid.Row="2" Grid.Column="1" Height="50" FontSize="16" Content="8"/>
+  <Button Name="button_9" Grid.Row="2" Grid.Column="2" Height="50" FontSize="16" Content="9"/>
+  <Button Name="button_mult" Grid.Row="2" Grid.Column="3" Height="50" FontSize="24" Content="×"/>
+  <Button Name="button_4" Grid.Row="3" Grid.Column="0" Height="50" FontSize="16" Content="4"/>
+  <Button Name="button_5" Grid.Row="3" Grid.Column="1" Height="50" FontSize="16" Content="5"/>
+  <Button Name="button_6" Grid.Row="3" Grid.Column="2" Height="50" FontSize="16" Content="6"/>
+  <Button Name="button_minus" Grid.Row="3" Grid.Column="3" Height="50" FontSize="24" Content="-"/>
+  <Button Name="button_1" Grid.Row="4" Grid.Column="0" Height="50" FontSize="16" Content="1"/>
+  <Button Name="button_2" Grid.Row="4" Grid.Column="1" Height="50" FontSize="16" Content="2"/>
+  <Button Name="button_3" Grid.Row="4" Grid.Column="2" Height="50" FontSize="16" Content="3"/>
+  <Button Name="button_plus" Grid.Row="4" Grid.Column="3" Height="50" FontSize="24" Content="+"/>
+  <Button Name="button_sign" Grid.Row="5" Grid.Column="0" Height="50" FontSize="16" Content="+/-"/>
+  <Button Name="button_0" Grid.Row="5" Grid.Column="1" Height="50" FontSize="16" Content="0"/>
+  <Button Name="button_decimal" Grid.Row="5" Grid.Column="2" Height="50" FontSize="16" Content="."/>
+  <Button Name="button_equal" Grid.Row="5" Grid.Column="3" Height="50" Background="Blue" FontSize="24" Foreground="White" Content="="/>
   
     </Grid>
+    </StackPanel>
 </Window>
