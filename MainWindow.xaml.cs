@@ -32,7 +32,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
     }
-    public void reset(){
+    private void reset(){
         isFirstNeg=false;
         isSecondNeg=false;
         isFirstDec=false;
@@ -108,8 +108,11 @@ public partial class MainWindow : Window
                     firstTerm=Active_Input.Text;
                     }
                     isNumLastProcess=false;
-                    op="+";
                 }
+                else{
+                    Previous_Expression.Text=Previous_Expression.Text.Remove(Previous_Expression.Text.Length-1,1)+"+";
+                }
+                op="+";
                 break;
             case "button_minus":
                 if(isDBZ){
@@ -125,8 +128,11 @@ public partial class MainWindow : Window
                     firstTerm=Active_Input.Text;
                     }
                     isNumLastProcess=false;
-                    op="-";
                 }
+                else{
+                    Previous_Expression.Text=Previous_Expression.Text.Remove(Previous_Expression.Text.Length-1,1)+"-";
+                }
+                op="-";
                 break;
             case "button_mult":
                 if(isDBZ){
@@ -142,8 +148,11 @@ public partial class MainWindow : Window
                     firstTerm=Active_Input.Text;
                     }
                     isNumLastProcess=false;
-                    op="×";
                 }
+                else{
+                    Previous_Expression.Text=Previous_Expression.Text.Remove(Previous_Expression.Text.Length-1,1)+"×";
+                }
+                op="×";
                 break;
             case "button_div":
                 if(isDBZ){
@@ -163,8 +172,11 @@ public partial class MainWindow : Window
                             Active_Input.Text="Cannot divide by zero";
                     }
                     isNumLastProcess=false;
-                    op="÷";
                 }
+                else{
+                    Previous_Expression.Text=Previous_Expression.Text.Remove(Previous_Expression.Text.Length-1,1)+"÷";
+                }
+                op="÷";
                 break;
             case "button_percent":
                 if(isDBZ){
@@ -308,7 +320,8 @@ public partial class MainWindow : Window
                         Int64 first=Int64.Parse(firstTerm);
                         Int64 second=Int64.Parse(secondTerm);
                         Int64 result=0;
-                        // decimal dresult=0;
+                        decimal dresult=0.0m;
+                        bool divide = false;
                         switch(op){
                             case "+":
                                 result = first + second;
@@ -320,11 +333,12 @@ public partial class MainWindow : Window
                                 result = first * second;
                                 break;
                             case "÷":
-                                if (second==0){//check this for decimal
+                                if (second==0){
                                     isDBZ=true;
                                     break;
                                 }
-                                result = first / second;
+                                dresult = Decimal.Divide(first, second);
+                                divide=true;
                                 break;
                                 
                         }
@@ -337,7 +351,13 @@ public partial class MainWindow : Window
                             }
                         }
                         else{
-                            Active_Input.Text=result.ToString();
+                            if(divide){
+                                Active_Input.Text=dresult.ToString();
+                                isFirstDec=true;
+                            }
+                            else{
+                                Active_Input.Text=result.ToString();
+                            }
                         }
                     }
                     isFirstTerm=true;
