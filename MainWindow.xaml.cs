@@ -59,7 +59,7 @@ public partial class MainWindow : Window
                 }
                 if (Active_Input.Text!="0"){
                     if(isNumLastProcess){
-                    Active_Input.Text+="0";
+                        Active_Input.Text+="0";
                     }
                     else{
                         Active_Input.Text="0";
@@ -105,6 +105,8 @@ public partial class MainWindow : Window
                     Previous_Expression.Text=Active_Input.Text+"+";
                     isFirstTerm=false;
                     isSecondTerm=true;
+                    isSecondDec=false;
+                    isSecondNeg=false;
                     firstTerm=Active_Input.Text;
                     }
                     isNumLastProcess=false;
@@ -125,6 +127,8 @@ public partial class MainWindow : Window
                     Previous_Expression.Text=Active_Input.Text+"-";
                     isSecondTerm=true;
                     isFirstTerm=false;
+                    isSecondDec=false;
+                    isSecondNeg=false;
                     firstTerm=Active_Input.Text;
                     }
                     isNumLastProcess=false;
@@ -145,6 +149,8 @@ public partial class MainWindow : Window
                     Previous_Expression.Text=Active_Input.Text+"×";
                     isSecondTerm=true;
                     isFirstTerm=false;
+                    isSecondDec=false;
+                    isSecondNeg=false;
                     firstTerm=Active_Input.Text;
                     }
                     isNumLastProcess=false;
@@ -165,6 +171,8 @@ public partial class MainWindow : Window
                     Previous_Expression.Text=Active_Input.Text+"÷";
                     isSecondTerm=true;
                     isFirstTerm=false;
+                    isSecondDec=false;
+                    isSecondNeg=false;
                     firstTerm=Active_Input.Text;
                     }
                     else if(isSecondTerm){
