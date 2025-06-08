@@ -81,9 +81,7 @@ public partial class MainWindow : Window
                     int neg = (((isFirstNeg&&isFirstTerm)?1:0) + ((isSecondNeg&&isSecondTerm)?1:0));
                     if (Active_Input.Text.Length-dec-neg<16){
                         decimal curr = Decimal.Parse(Active_Input.Text+digit, NumberStyles.AllowDecimalPoint|NumberStyles.AllowThousands);
-                        String intpart = Decimal.Truncate(curr).ToString("N0");
-                        String fracpart = (curr-Decimal.Truncate(curr)).ToString("G15").Remove(0,1);
-                        Active_Input.Text=intpart+fracpart;
+                        Active_Input.Text=Decimal.Truncate(curr).ToString("N0")+(curr-Decimal.Truncate(curr)).ToString("G15").Remove(0,1);// intpart + fracpart
                     }
                 }
                 isNumLastProcess=true;
@@ -185,21 +183,62 @@ public partial class MainWindow : Window
                 if(isDBZ){
                     break;
                 }
+                if(op!=null){
+                    decimal perc = decimal.Parse(Active_Input.Text, NumberStyles.AllowDecimalPoint|NumberStyles.AllowThousands)/100;
+                    String intperc = Decimal.Truncate(perc).ToString("N0");
+                    String fracperc = (perc-Decimal.Truncate(perc)).ToString("G15").Remove(0,1);
+                    Active_Input.Text=intperc+fracperc;
+                    if (fracperc!="")
+                        isFirstDec=true;
+                }
                 break;
             // Advanced Operations
             case "button_fraction":
                 if(isDBZ){
                     break;
                 }
+                decimal denominator =decimal.Parse(Active_Input.Text, NumberStyles.AllowDecimalPoint|NumberStyles.AllowThousands); 
+                if (denominator==0)
+                {
+                    Active_Input.Text="Cannot divide by zero";
+                    isDBZ=true;
+                    break;
+                }
+                decimal frac = 1/denominator;
+                Active_Input.Text=Decimal.Truncate(frac).ToString("N0")+(frac-Decimal.Truncate(frac)).ToString("G15").Remove(0,1);// intpart + fracpart
+                if (isFirstTerm)
+                    isFirstDec=true;
+                if (isSecondTerm)
+                    isSecondDec=true;
                 break;
             case "button_square":
                 if(isDBZ){
                     break;
                 }
+                decimal baseS =decimal.Parse(Active_Input.Text, NumberStyles.AllowDecimalPoint|NumberStyles.AllowThousands);
+                decimal square = baseS * baseS;
+                Active_Input.Text=Decimal.Truncate(square).ToString("N0")+(square-Decimal.Truncate(square)).ToString("G15").Remove(0,1);//intpart + fracpart
                 break;
             case "button_root":
                 if(isDBZ){
                     break;
+                }
+                double radicand=double.Parse(Active_Input.Text, NumberStyles.AllowDecimalPoint|NumberStyles.AllowThousands);
+                decimal root = (decimal)Math.Sqrt(radicand);
+                String introot = Decimal.Truncate(root).ToString("N0");
+                String fracroot = (root-Decimal.Truncate(root)).ToString("G15").Remove(0,1);
+                Active_Input.Text=introot + fracroot;
+                if (isFirstTerm)
+                {
+                    if (fracroot!=""){
+                        isFirstDec=true;
+                    }
+                }
+                if (isSecondTerm)
+                {
+                    if (fracroot!=""){
+                        isSecondDec=true;
+                    }
                 }
                 break;
             // Clear/Backspace
@@ -307,7 +346,7 @@ public partial class MainWindow : Window
                                 break;
                         }
                         if (isDBZ){
-                            if (first==0){//fix this for decimal
+                            if (first==0.0m){
                                 Active_Input.Text="Result is undefined";    
                             }
                             else{
@@ -347,7 +386,7 @@ public partial class MainWindow : Window
                                 
                         }
                         if (isDBZ){
-                            if (first==0){//fix this for decimal
+                            if (first==0){
                                 Active_Input.Text="Result is undefined";    
                             }
                             else{
