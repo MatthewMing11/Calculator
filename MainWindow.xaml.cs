@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Globalization;
 
 namespace Calculator;
 
@@ -54,19 +55,6 @@ public partial class MainWindow : Window
         {
             // Numbers
             case "button_0":
-                if (isDBZ){
-                    reset();
-                }
-                if (Active_Input.Text!="0"){
-                    if(isNumLastProcess){
-                        Active_Input.Text+="0";
-                    }
-                    else{
-                        Active_Input.Text="0";
-                    }
-                }
-                isNumLastProcess=true;
-                break;
             case "button_1":
             case "button_2":
             case "button_3":
@@ -89,7 +77,14 @@ public partial class MainWindow : Window
                 }
                 else
                 {
-                    Active_Input.Text+=digit;
+                    int dec = (((isFirstDec&&isFirstTerm)?1:0) + ((isSecondDec&&isSecondTerm)?1:0));
+                    int neg = (((isFirstNeg&&isFirstTerm)?1:0) + ((isSecondNeg&&isSecondTerm)?1:0));
+                    if (Active_Input.Text.Length-dec-neg<16){
+                        decimal curr = Decimal.Parse(Active_Input.Text+digit, NumberStyles.AllowDecimalPoint|NumberStyles.AllowThousands);
+                        String intpart = Decimal.Truncate(curr).ToString("N0");
+                        String fracpart = (curr-Decimal.Truncate(curr)).ToString("G15").Remove(0,1);
+                        Active_Input.Text=intpart+fracpart;
+                    }
                 }
                 isNumLastProcess=true;
                 break;
@@ -255,7 +250,6 @@ public partial class MainWindow : Window
                         isFirstDec=true;
                     if (isSecondTerm)
                         isSecondDec=true;
-                    // isNumLastProcess=false;
                 break;
             case "button_sign":
                 if (Active_Input.Text[0]!='0' && Active_Input.Text[0]!='-')
@@ -291,8 +285,8 @@ public partial class MainWindow : Window
                     Previous_Expression.Text+=secondTerm+"=";
                     if(isFirstDec || isSecondDec)
                     {
-                        decimal first=decimal.Parse(firstTerm);
-                        decimal second=decimal.Parse(secondTerm);
+                        decimal first=decimal.Parse(firstTerm, NumberStyles.AllowDecimalPoint|NumberStyles.AllowThousands);
+                        decimal second=decimal.Parse(secondTerm, NumberStyles.AllowDecimalPoint|NumberStyles.AllowThousands);
                         decimal result=0;
                         switch(op){
                             case "+":
@@ -321,12 +315,14 @@ public partial class MainWindow : Window
                             }
                         }
                         else{
-                            Active_Input.Text=result.ToString();
+                            String intpart = Decimal.Truncate(result).ToString("N0");
+                            String fracpart = (result-Decimal.Truncate(result)).ToString("G15").Remove(0,1);
+                            Active_Input.Text=intpart+fracpart;
                         }
                     }
                     else{
-                        Int64 first=Int64.Parse(firstTerm);
-                        Int64 second=Int64.Parse(secondTerm);
+                        Int64 first=Int64.Parse(firstTerm,NumberStyles.AllowThousands);
+                        Int64 second=Int64.Parse(secondTerm,NumberStyles.AllowThousands);
                         Int64 result=0;
                         decimal dresult=0.0m;
                         bool divide = false;
@@ -360,11 +356,13 @@ public partial class MainWindow : Window
                         }
                         else{
                             if(divide){
-                                Active_Input.Text=dresult.ToString();
+                                String intpart = Decimal.Truncate(dresult).ToString("N0");
+                                String fracpart = (dresult-Decimal.Truncate(dresult)).ToString("G15").Remove(0,1);
+                                Active_Input.Text=intpart+fracpart;
                                 isFirstDec=true;
                             }
                             else{
-                                Active_Input.Text=result.ToString();
+                                Active_Input.Text=result.ToString("N0");
                             }
                         }
                     }
