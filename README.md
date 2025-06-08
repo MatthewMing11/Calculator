@@ -3,8 +3,8 @@ A simple implementation of a calculator using C# and the WPF framework.
 ## Current Features
 - [x] Basic Math Operations
     - [x] "Proper" Division for Integers
+- [x] Adaptive I/O Number Formatting(Commas)
 - [ ] Advanced Math Operations(Square,Root,Percent,Fraction)
-- [ ] Adaptive I/O Number Formatting(Commas)
 ## Planned Features/ Things to Do
 - [ ] History
 - [ ] Memory Functions
